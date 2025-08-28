@@ -1,0 +1,245 @@
+:root{
+  /* Daha koyu ve doygun mavi tonlar */
+  --bg-1:#8bbcf8;   /* üst */
+  --bg-2:#5ea0f0;   /* orta */
+  --bg-3:#4a8ee4;   /* alt */
+  --ink:#0c214a;
+
+  --card:#0f2f7a;   /* koyu kart */
+  --white:#fff;
+
+  /* butonlar */
+  --accent:#f4b429;
+  --accent-2:#f0a619;
+
+  --danger:#e84d4d;
+
+  /* çocuk temalı etiket renkleri */
+  --kid-1:#ffd86a; --kid-2:#ffa1e3; --kid-3:#85e2ff; --kid-4:#b8f49c;
+}
+
+*{box-sizing:border-box}
+html,body,#root{height:100%}
+body{
+  margin:0;
+  font-family: ui-rounded, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+  color:var(--ink);
+}
+
+/* Arkaplan: daha koyu mavi geçiş */
+.page{
+  min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px;
+  background:
+    radial-gradient(10px 10px at 12% 22%, rgba(255,255,255,.35) 20%, transparent 21%),
+    radial-gradient(8px 8px at 88% 30%, rgba(255,255,255,.22) 20%, transparent 21%),
+    linear-gradient(180deg, var(--bg-1), var(--bg-2) 40%, var(--bg-3));
+}
+
+/* Şeffaf dış çerçeve */
+.wrapper{
+  width:min(1000px,100%);
+  background:rgba(255,255,255,.38);
+  backdrop-filter:saturate(130%) blur(5px);
+  border-radius:22px; padding:28px 18px 32px;
+  box-shadow:0 20px 46px rgba(0,0,0,.20);
+  overflow:hidden;
+}
+.hero{
+  margin:0 0 10px;
+  text-align:center; color:#0b1f45;
+  font-size:clamp(22px,2.6vw,30px); font-weight:900; letter-spacing:.6px;
+  text-shadow:0 1px 0 rgba(255,255,255,.5);
+}
+.footerNote{ text-align:center; margin:14px 0 0; font-size:12px; color:#203566; opacity:.85; }
+
+/* -------- GENEL (diğer sayfalar) -------- */
+.card{
+  width:min(620px, 94%); margin: 10px auto 0;
+  background: var(--card); color:#fff;
+  border-radius:26px; padding:22px 18px;
+  box-shadow: 0 10px 0 rgba(0,0,0,.12), 0 28px 60px rgba(0,0,0,.28);
+}
+.cardTitle{ text-align:center; font-weight:800; letter-spacing:.7px; margin-bottom:12px; opacity:.95; }
+.form{ display:grid; gap:12px; }
+.label{ display:grid; gap:6px; font-size:14px; opacity:.95; color:#fff; }
+.input{
+  width:100%; padding:12px 14px; font-size:16px;
+  background:#f8fbff; color:#0d1f40;
+  border:none; border-radius:12px;
+  outline:3px solid transparent; box-shadow: inset 0 0 0 1px rgba(0,0,0,.08);
+}
+.input:focus{ outline-color:rgba(255,255,255,.6); box-shadow:0 0 0 4px rgba(255,255,255,.25) inset; }
+select.input{
+  appearance:none;
+  background-image:linear-gradient(45deg, transparent 50%, #94a3b8 50%),
+                   linear-gradient(135deg, #94a3b8 50%, transparent 50%);
+  background-position: calc(100% - 18px) calc(1em + 2px), calc(100% - 13px) calc(1em + 2px);
+  background-size:6px 6px; background-repeat:no-repeat;
+}
+.row{ display:flex; gap:12px; align-items:center; justify-content:space-between; margin-top:6px; flex-wrap:wrap; }
+.btn{
+  appearance:none; border:0; cursor:pointer;
+  background:linear-gradient(180deg,var(--accent),var(--accent-2));
+  color:#2d2a4a; font-weight:900; padding:13px 20px; border-radius:14px;
+  font-size:16px;
+  box-shadow:0 6px 0 rgba(0,0,0,.18);
+  transform:translateY(0); transition:.15s;
+}
+.btn:hover{ transform:translateY(-1px); box-shadow:0 8px 0 rgba(0,0,0,.2); }
+.btn:active{ transform:translateY(2px); box-shadow:0 3px 0 rgba(0,0,0,.2); }
+.error{
+  margin-top:8px; background:#fff; color:var(--danger); border-radius:10px; padding:10px 12px; font-size:14px; font-weight:700;
+  box-shadow:inset 0 0 0 2px rgba(232,77,77,.12);
+}
+
+/* Panel gridleri */
+.panel{ width:min(1000px,96%); margin:12px auto 0; display:grid; gap:14px; }
+.panelTop{ display:flex; align-items:center; justify-content:space-between; gap:12px; padding:8px 10px; }
+.unitGrid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:14px; }
+.unitCard{ background:#ffffff; border-radius:18px; padding:14px; box-shadow:0 10px 30px rgba(0,0,0,.14); display:grid; gap:8px; position:relative; }
+.badge{ position:absolute; top:10px; right:10px; background:#e8efff; padding:4px 8px; border-radius:999px; font-size:12px; color:#274;}
+.locked{ opacity:.6; filter:grayscale(10%); pointer-events:none; }
+.kpi{ font-size:12px; color:#123; opacity:.85; }
+
+/* ------- ÇOCUK DOSTU GİRİŞ ------- */
+.welcomeCard{
+  position:relative;
+  width:min(860px, 100%);
+  margin:8px auto 0;
+  border-radius:26px;
+  background: linear-gradient(180deg, #cbe0ff, #b9d3ff);
+  box-shadow: 0 16px 0 rgba(17,37,71,.14), 0 26px 68px rgba(17,37,71,.35);
+  padding: 26px 26px 28px;
+  overflow:hidden;
+}
+.welcomeInner{
+  display:grid; grid-template-columns: 260px 1fr; gap:20px; align-items:center;
+}
+@media (max-width:720px){ .welcomeInner{ grid-template-columns:1fr; } }
+
+.kidTitle{
+  margin:0 0 4px;
+  font-size:clamp(26px, 3.4vw, 36px);
+  font-weight:900; letter-spacing:.6px;
+  background: linear-gradient(90deg, #0b1f45, #183b86);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.kidSub{ margin:6px 0 14px; font-size:15px; color:#1b315f; opacity:.95; }
+
+/* BÜYÜK GİRİŞ BUTONLARI */
+.kidBtns{ display:flex; gap:16px; flex-wrap:wrap; }
+.kidBtn{
+  display:flex; align-items:center; gap:12px;
+  background:linear-gradient(180deg,#f3b21b,#e79c08);
+  border:none; border-radius:18px;
+  padding:16px 22px;            /* büyütüldü */
+  font-weight:900; font-size:18px;  /* büyütüldü */
+  cursor:pointer;
+  box-shadow:0 8px 0 rgba(0,0,0,.20);
+}
+.kidBtn:hover{ transform:translateY(-1px); }
+.kidBtn:active{ transform:translateY(2px); box-shadow:0 4px 0 rgba(0,0,0,.22); }
+
+.kidIcon{
+  width:44px; height:44px;      /* büyütüldü */
+  border-radius:14px; display:inline-grid; place-items:center;
+  background:white; box-shadow:inset 0 0 0 2px rgba(0,0,0,.08);
+  font-size:26px;               /* büyütüldü */
+}
+
+/* Maskot & süsler */
+.mascotWrap{ display:grid; place-items:center; }
+.stickers{ display:flex; gap:10px; margin-top:12px; font-size:20px; opacity:.95; }
+
+/* Uçan parçacıklar biraz kısıldı (göz yormasın) */
+.floaters{ position:absolute; inset:0; pointer-events:none; }
+.floaters li{
+  position:absolute; width:12px; height:12px; border-radius:4px;
+  background: var(--kid-3); opacity:.55; list-style:none;
+  animation: float 9s linear infinite;
+}
+.floaters li:nth-child(2){ left:8%; top:10%; background:var(--kid-2); animation-duration:10s; width:10px; height:10px; }
+.floaters li:nth-child(3){ left:90%; top:18%; background:var(--kid-4); animation-duration:8.5s; width:12px; height:12px; }
+.floaters li:nth-child(4){ left:18%; top:82%; background:var(--kid-1); animation-duration:11s; width:14px; height:14px; }
+.floaters li:nth-child(5){ left:86%; top:86%; background:#fff; animation-duration:9.5s; width:9px; height:9px; }
+
+@keyframes float{
+  0%{ transform: translateY(0) rotate(0deg); opacity:.7 }
+  50%{ opacity:.9 }
+  100%{ transform: translateY(-110px) rotate(180deg); opacity:.45 }
+}
+
+/* Egzersiz placeholder kartı */
+.exerciseWrap{
+  width:min(720px,96%); margin:18px auto; background:#fff; border-radius:18px; padding:16px;
+  box-shadow:0 10px 30px rgba(0,0,0,.14); text-align:center;
+}
+
+@media (max-width:520px){
+  .row{ flex-direction:column; align-items:stretch; gap:10px; }
+  .btn{ width:100%; }
+}
+/* ============= 1. Ünite Büyük Blok ============= */
+.unitHero{
+  width:min(1000px,96%);
+  margin:16px auto;
+  background:#ffffff;
+  border-radius:22px;
+  box-shadow:0 16px 40px rgba(0,0,0,.18);
+  padding:18px 18px 22px;
+}
+.unitHeader{ position:relative; padding:4px 4px 10px; }
+.unitHeader h2{
+  margin:6px 0 4px;
+  font-size:clamp(22px,3.2vw,28px);
+  color:#0b1f45; letter-spacing:.4px;
+}
+.unitDesc{ margin:0; color:#274070; opacity:.9; font-size:14px; }
+.unitBadge{
+  position:absolute; right:6px; top:0;
+  background:#e7f3ff; color:#2a4a8a; padding:4px 8px; border-radius:999px; font-size:12px;
+  box-shadow:0 2px 0 rgba(0,0,0,.08);
+}
+
+/* Egzersiz karoları */
+.exerciseGrid{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap:14px;
+  margin-top:10px;
+}
+.exerciseTile{
+  display:grid; grid-template-rows: auto auto auto auto;
+  align-content:start;
+  gap:6px;
+  border:0; cursor:pointer; text-align:left;
+  background:linear-gradient(180deg,#f7fbff,#edf3ff);
+  padding:14px; border-radius:16px;
+  box-shadow:0 10px 0 rgba(0,0,0,.10), 0 22px 40px rgba(0,0,0,.18);
+  transition:transform .12s ease, box-shadow .12s ease;
+}
+.exerciseTile:hover{ transform:translateY(-1px); box-shadow:0 12px 0 rgba(0,0,0,.12), 0 28px 50px rgba(0,0,0,.22); }
+.exerciseTile:active{ transform:translateY(2px); box-shadow:0 6px 0 rgba(0,0,0,.12), 0 16px 34px rgba(0,0,0,.20); }
+
+.exerciseIcon{
+  width:56px; height:56px; border-radius:14px; display:grid; place-items:center;
+  font-size:28px; background:#fff;
+  box-shadow:inset 0 0 0 2px rgba(0,0,0,.06);
+}
+.exerciseName{ font-weight:900; color:#0f2f7a; margin-top:2px; }
+
+/* Basit ilerleme ölçeği (şimdilik 0%) */
+.meter{ height:12px; background:#e9eefb; border-radius:999px; overflow:hidden; box-shadow:inset 0 0 0 1px rgba(0,0,0,.05); }
+.meterFill{ height:100%; width:var(--val, 0%); background:linear-gradient(90deg,#5ea0f0,#4a8ee4); }
+
+.tileFooter{ font-size:12px; color:#29406f; opacity:.9; }
+/* 1. Ünite içinde "Konu Başlıkları" şeridi */
+.topicHeader{
+  display:inline-flex; align-items:center; gap:8px;
+  margin:2px 0 6px;
+  background:#e7f0ff; color:#103b9d;
+  padding:6px 10px; border-radius:999px;
+  font-weight:900; font-size:13px;
+  box-shadow:0 2px 0 rgba(0,0,0,.08);
+}
+.topicHeader::before{ content:"👁️"; font-size:14px; }
