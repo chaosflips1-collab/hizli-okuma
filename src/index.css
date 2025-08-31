@@ -769,3 +769,37 @@ h1, .appTitle{
 }
 .infoNote  { background: #eef6ff; color: #0f3d8a; border: 1px solid #cfe2ff; }
 .errorNote { background: #fff2f2; color: #8a0f0f; border: 1px solid #ffd1d1; }
+/* ==== Öğretmen Paneli temel stiller ==== */
+.panel { padding: clamp(14px, 3vw, 24px); }
+
+.panelHead {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 12px; margin-bottom: 12px;
+}
+.panelTitle h2 { margin: 0; font-size: clamp(20px, 2.8vw, 28px); }
+.meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+
+.pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 10px; border-radius: 999px;
+  background: #eef3ff; color: #163b85; font-size: 13px; border: 1px solid #d5deea;
+}
+
+.panelActions { display: flex; align-items: center; gap: 8px; }
+.search {
+  height: 38px; border-radius: 10px; border: 1px solid #d5deea;
+  padding: 0 12px; min-width: 220px; background: #f7faff;
+}
+
+.panelCard {
+  background: #fff; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,.06); padding: 16px;
+}
+.hint { color: #5b6b82; margin: 0; }
+
+.tblWrap { overflow: auto; margin-top: 8px; }
+.tbl { width: 100%; border-collapse: collapse; }
+.tbl th, .tbl td { text-align: left; padding: 10px 8px; border-bottom: 1px solid #eef2f7; }
+.tbl thead th { font-size: 13px; color: #5b6b82; background: #f8fbff; position: sticky; top: 0; }
+
+.empty { padding: 20px; text-align: center; color: #5b6b82; }
+.footNote { margin-top: 10px; font-size: 12px; color: #6b7280; }

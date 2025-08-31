@@ -1,51 +1,115 @@
-import React, { useMemo } from 'react'
-import Header from '../components/Header.jsx'
-import { getTeacher, listStudents } from '../utils/storage.js'
+// src/pages/TeacherPanel.jsx
+import React, { useEffect, useMemo, useState } from "react";
+import { listStudentsByClass } from "../utils/auth";
 
-export default function TeacherPanel({ teacher, onLogout }){
-  const my = useMemo(()=> teacher || getTeacher(), [teacher])
-  const rows = useMemo(() => {
-    const all = listStudents()
-    return all.filter(s => s.cls === my.cls)
-  }, [my])
+export default function TeacherPanel({ teacher, onLogout }) {
+  // Güvenlik: öğretmen yoksa uyarı göster
+  if (!teacher) {
+    return (
+      <main className="panel">
+        <section className="panelCard">
+          <h2>Öğretmen bilgisi bulunamadı</h2>
+          <p>Lütfen giriş yapın.</p>
+          {onLogout && (
+            <button className="btnPrimary" onClick={onLogout}>Girişe Dön</button>
+          )}
+        </section>
+      </main>
+    );
+  }
+
+  const [students, setStudents] = useState([]);
+  const [q, setQ] = useState("");
+  const [refreshedAt, setRefreshedAt] = useState(Date.now());
+
+  const load = () => {
+    const arr = listStudentsByClass(teacher.school, teacher.classroom);
+    // Ad soyada göre sıralayalım (Türkçe locale ile)
+    arr.sort((a, b) => a.name.localeCompare(b.name, "tr"));
+    setStudents(arr);
+    setRefreshedAt(Date.now());
+  };
+
+  useEffect(() => {
+    load();
+    // teacher.school veya teacher.classroom güncellenirse tekrar çek
+  }, [teacher.school, teacher.classroom]);
+
+  const filtered = useMemo(() => {
+    const s = q.trim().toLowerCase();
+    if (!s) return students;
+    return students.filter(
+      st =>
+        st.name.toLowerCase().includes(s) ||
+        st.code.toLowerCase().includes(s)
+    );
+  }, [students, q]);
 
   return (
-    <>
-      <Header
-        title={`Hoş geldiniz, ${my.name} — Sınıfınız: ${my.cls}`}
-        right={<button className="btn" onClick={onLogout}>Çıkış</button>}
-      />
-      <div className="panel" style={{padding:'0 10px'}}>
-        <div className="unitCard">
-          <h3>Öğrenciler (yalnızca {my.cls})</h3>
-          <div style={{overflowX:'auto'}}>
-            <table style={{width:'100%', borderCollapse:'collapse'}}>
+    <main className="panel">
+      {/* Üst şerit */}
+      <section className="panelHead">
+        <div className="panelTitle">
+          <h2>Öğretmen Paneli</h2>
+          <div className="meta">
+            <span className="pill">{(teacher.school || "").toUpperCase()}</span>
+            <span className="pill">{teacher.classroom}</span>
+            <span className="pill">👤 {teacher.name}</span>
+          </div>
+        </div>
+
+        <div className="panelActions">
+          <input
+            className="search"
+            placeholder="İsim veya kod ara…"
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+          />
+          <button className="btnGhost" onClick={load} title="Yenile">↻ Yenile</button>
+          {onLogout && (
+            <button className="btnPrimary" onClick={onLogout}>Çıkış</button>
+          )}
+        </div>
+      </section>
+
+      {/* Liste kartı */}
+      <section className="panelCard">
+        <p className="hint">
+          Aşağıda sadece <b>{(teacher.school || "").toUpperCase()}</b> okulundaki{" "}
+          <b>{teacher.classroom}</b> sınıfının öğrencileri listelenir.
+        </p>
+
+        {filtered.length === 0 ? (
+          <div className="empty">Henüz öğrenci kaydı bulunmuyor.</div>
+        ) : (
+          <div className="tblWrap">
+            <table className="tbl">
               <thead>
                 <tr>
-                  <th style={{textAlign:'left', padding:8}}>Kod</th>
-                  <th style={{textAlign:'left', padding:8}}>Ad Soyad</th>
-                  <th style={{textAlign:'left', padding:8}}>Sınıf</th>
+                  <th style={{ width: "48px" }}>#</th>
+                  <th>Ad Soyad</th>
+                  <th>Kod</th>
+                  <th>Sınıf</th>
                 </tr>
               </thead>
               <tbody>
-                {rows.length === 0 && (
-                  <tr><td colSpan={3} style={{padding:8}}>Bu cihazda {my.cls} sınıfından giriş yapılmamış.</td></tr>
-                )}
-                {rows.map(r => (
-                  <tr key={r.code}>
-                    <td style={{padding:8}}>{r.code}</td>
-                    <td style={{padding:8}}>{r.name}</td>
-                    <td style={{padding:8}}>{r.cls}</td>
+                {filtered.map((s, i) => (
+                  <tr key={`${s.code}-${i}`}>
+                    <td>{i + 1}</td>
+                    <td>{s.name}</td>
+                    <td><code>{s.code.toUpperCase()}</code></td>
+                    <td>{s.classroom}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-          <p className="kpi" style={{marginTop:8}}>
-            Not: Bu demo yerel çalışır; liste, bu cihazda giriş yapan öğrencilerden oluşur.
-          </p>
+        )}
+
+        <div className="footNote">
+          Son güncelleme: {new Date(refreshedAt).toLocaleString()}
         </div>
-      </div>
-    </>
-  )
+      </section>
+    </main>
+  );
 }
