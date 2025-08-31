@@ -1,51 +1,49 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
+import { getSchools, getClasses, validateTeacherLogin } from '../utils/auth.js';
 
 export default function TeacherLogin({ onLoggedIn }) {
+  const schools = useMemo(() => getSchools(), []);
+  const [schoolId, setSchoolId] = useState(schools[0]?.id ?? '');
+  const classes = useMemo(() => getClasses(schoolId), [schoolId]);
+
   const [name, setName] = useState('');
-  const [cls, setCls] = useState('');
+  const [className, setClassName] = useState(classes[0] ?? '');
+  const [err, setErr] = useState('');
+
+  React.useEffect(() => {
+    setClassName(getClasses(schoolId)[0] ?? '');
+  }, [schoolId]);
 
   const submit = (e) => {
     e.preventDefault();
-    if (!name || !cls) return;
-    onLoggedIn({ name, className: cls });
+    setErr('');
+    try {
+      const payload = validateTeacherLogin({ schoolId, name: name.trim(), className });
+      if (typeof onLoggedIn === 'function') onLoggedIn(payload);
+    } catch (ex) {
+      setErr(ex.message || 'Giriş başarısız.');
+    }
   };
 
   return (
-    <main className="role">
-      <div className="roleBG" aria-hidden="true" />
-      <section className="loginCard" aria-labelledby="tlogin-title">
-        <h2 id="tlogin-title" className="appTitle">Öğretmen Girişi</h2>
+    <form onSubmit={submit} className="loginBox">
+      <h2>Öğretmen Girişi</h2>
 
-        <form onSubmit={submit} className="formCol">
-          <label className="formRow">
-            <span>Ad Soyad</span>
-            <input
-              className="textInput"
-              placeholder="Örn: Melek Hanım"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </label>
+      <label>Okul</label>
+      <select value={schoolId} onChange={(e)=>setSchoolId(e.target.value)}>
+        {schools.map(s=> <option key={s.id} value={s.id}>{s.name}</option>)}
+      </select>
 
-          <label className="formRow">
-            <span>Sınıf (kilitlenir)</span>
-            <select
-              className="select"
-              value={cls}
-              onChange={(e) => setCls(e.target.value)}
-            >
-              <option value="">Sınıf seçin</option>
-              <option value="5/A">5/A</option>
-              <option value="5/B">5/B</option>
-              <option value="5/C">5/C</option>
-            </select>
-          </label>
+      <label>Sınıf (kilitlenir)</label>
+      <select value={className} onChange={(e)=>setClassName(e.target.value)}>
+        {classes.map(c => <option key={c} value={c}>{c}</option>)}
+      </select>
 
-          <div className="actionRow" style={{ marginTop: 8 }}>
-            <button className="primaryBtn" type="submit">Giriş</button>
-          </div>
-        </form>
-      </section>
-    </main>
+      <label>Ad Soyad</label>
+      <input value={name} onChange={(e)=>setName(e.target.value)} placeholder="Örn: Melek Hanım" />
+
+      {err && <div className="error">{err}</div>}
+      <button type="submit">Giriş</button>
+    </form>
   );
 }
