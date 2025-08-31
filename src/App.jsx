@@ -23,6 +23,10 @@ export default function App(){
   const [teacher, setTeacherState] = useState(null)
   const [activeExercise, setActiveExercise] = useState(null) // {key,name}
 
+  // RoleSelect kartındaki butonlar için geçişler:
+const goStudent = () => setView('sLogin');  // Öğrenci giriş ekranına
+const goTeacher = () => setView('tLogin');  // Öğretmen giriş ekranına
+
   useEffect(() => {
     const s = getStudent()
     const t = getTeacher()
