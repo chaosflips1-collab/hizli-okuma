@@ -1,58 +1,51 @@
-import React, { useEffect, useMemo, useState } from 'react'
-import { CLASS_OPTIONS } from '../utils/classes.js'
-import { getTeacher, setTeacher } from '../utils/storage.js'
+import React, { useState } from 'react';
 
-export default function TeacherLogin({ onLoggedIn }){
-  const [name, setName] = useState('')
-  const [cls, setCls] = useState('')
-  const [lockedClass, setLockedClass] = useState(null)
-  const [err, setErr] = useState('')
-  const classOptions = useMemo(() => CLASS_OPTIONS, [])
+export default function TeacherLogin({ onLoggedIn }) {
+  const [name, setName] = useState('');
+  const [cls, setCls] = useState('');
 
-  // Daha önce giriş yaptıysa sınıf kilitli gelir
-  useEffect(() => {
-    const t = getTeacher()
-    if(t?.cls){
-      setLockedClass(t.cls)
-      setCls(t.cls)
-      setName(t.name || '')
-    }
-  }, [])
-
-  const submit = e => {
-    e.preventDefault()
-    setErr('')
-    try{
-      if(!name.trim()) throw new Error('Ad soyad gerekli.')
-      const finalCls = lockedClass || cls
-      if(!finalCls) throw new Error('Sınıf seçin.')
-      const teacher = { name: name.trim(), cls: finalCls, since: new Date().toISOString() }
-      setTeacher(teacher)
-      onLoggedIn(teacher)
-    }catch(e){
-      setErr(e.message || 'Hata oluştu.')
-    }
-  }
+  const submit = (e) => {
+    e.preventDefault();
+    if (!name || !cls) return;
+    onLoggedIn({ name, className: cls });
+  };
 
   return (
-    <div className="card">
-      <div className="cardTitle">ÖĞRETMEN GİRİŞİ</div>
-      <form onSubmit={submit} className="form">
-        <label className="label">Ad Soyad
-          <input className="input" value={name} onChange={e=>setName(e.target.value)} placeholder="Örn: Melek Hanım" />
-        </label>
-        <label className="label">Sınıf (kilitlenir)
-          <select className="input" value={lockedClass || cls} onChange={e=>setCls(e.target.value)} disabled={!!lockedClass}>
-            <option value="">{lockedClass ? `Kilitli sınıf: ${lockedClass}` : 'Sınıf seçin'}</option>
-            {!lockedClass && classOptions.map(c => <option key={c} value={c}>{c}</option>)}
-          </select>
-        </label>
-        <div className="row">
-          <span/>
-          <button className="btn" type="submit">GİRİŞ</button>
-        </div>
-        {err && <div className="error">{err}</div>}
-      </form>
-    </div>
-  )
+    <main className="role">
+      <div className="roleBG" aria-hidden="true" />
+      <section className="loginCard" aria-labelledby="tlogin-title">
+        <h2 id="tlogin-title" className="appTitle">Öğretmen Girişi</h2>
+
+        <form onSubmit={submit} className="formCol">
+          <label className="formRow">
+            <span>Ad Soyad</span>
+            <input
+              className="textInput"
+              placeholder="Örn: Melek Hanım"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </label>
+
+          <label className="formRow">
+            <span>Sınıf (kilitlenir)</span>
+            <select
+              className="select"
+              value={cls}
+              onChange={(e) => setCls(e.target.value)}
+            >
+              <option value="">Sınıf seçin</option>
+              <option value="5/A">5/A</option>
+              <option value="5/B">5/B</option>
+              <option value="5/C">5/C</option>
+            </select>
+          </label>
+
+          <div className="actionRow" style={{ marginTop: 8 }}>
+            <button className="primaryBtn" type="submit">Giriş</button>
+          </div>
+        </form>
+      </section>
+    </main>
+  );
 }
