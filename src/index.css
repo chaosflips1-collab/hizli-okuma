@@ -702,3 +702,70 @@ h1, .appTitle{
   font-weight: 800;
 }
 .roleBG { pointer-events: none; }
+/* ==== Login (ortak) ==== */
+.login {
+  min-height: calc(100dvh - 160px);
+  display: grid;
+  place-items: center;
+}
+
+.loginCard {
+  width: min(520px, 92vw);
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.08);
+  padding: 28px 26px 22px;
+  text-align: center;
+  animation: cardPop .24s ease-out both;
+}
+
+@keyframes cardPop {
+  from { transform: translateY(8px) scale(.985); opacity: .0; }
+  to   { transform: translateY(0)    scale(1);     opacity: 1; }
+}
+
+.loginAvatar { display: flex; justify-content: center; margin-bottom: 8px; }
+.avatarCircle {
+  width: 84px; height: 84px; border-radius: 999px;
+  background: var(--ink,#0b225c);
+  box-shadow: inset 0 -6px 0 rgba(0,0,0,.08);
+}
+.avatarCircle.teacher { background: #163b85; }
+
+.loginTitle { font-size: clamp(22px, 3vw, 28px); margin: 10px 0 4px; }
+.loginDesc  { color: #5b6b82; font-size: 14px; margin: 0 0 14px; }
+
+.loginForm { margin-top: 6px; text-align: left; }
+.formRow { display: grid; gap: 6px; margin: 10px 0; }
+.formRow label { font-size: 13px; color: #3b4a61; }
+.formRow input {
+  height: 42px; padding: 0 12px; border-radius: 12px;
+  border: 1px solid #d5deea; outline: none;
+  font-size: 15px; background: #f7faff;
+}
+.formRow input:focus { border-color: #94b5ff; box-shadow: 0 0 0 3px rgba(82,126,255,.15); }
+
+.btnRow { display: flex; justify-content: space-between; gap: 12px; margin-top: 14px; }
+.btnPrimary, .btnGhost {
+  height: 42px; padding: 0 16px; border-radius: 12px; cursor: pointer;
+  font-weight: 700; border: 1px solid transparent; transition: transform .06s ease;
+}
+.btnPrimary {
+  background: var(--primary,#3563ff);
+  color: #fff;
+}
+.btnPrimary:disabled { opacity: .6; cursor: not-allowed; }
+.btnPrimary:not(:disabled):active,
+.btnGhost:active { transform: translateY(1px) }
+
+.btnGhost {
+  background: #eef3ff; color: #163b85; border-color: #d5deea;
+}
+.infoNote, .errorNote {
+  margin-top: 8px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  font-size: 13px;
+}
+.infoNote  { background: #eef6ff; color: #0f3d8a; border: 1px solid #cfe2ff; }
+.errorNote { background: #fff2f2; color: #8a0f0f; border: 1px solid #ffd1d1; }
