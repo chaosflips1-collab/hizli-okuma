@@ -7,7 +7,9 @@ import TeacherPanel from './pages/TeacherPanel.jsx'
 import ExercisePlaceholder from './exercises/Placeholder.jsx'
 import Takistoskop from './exercises/Takistoskop.jsx'
 import Koseli from './exercises/Koseli.jsx'
-import Acili from './exercises/Acili.jsx'            // <<— YENİ
+import Acili from './exercises/Acili.jsx' 
+import "./App.css";
+           // <<— YENİ
 
 import {
   getStudent, setStudent as saveStudent, clearStudent,

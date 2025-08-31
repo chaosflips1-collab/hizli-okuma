@@ -1,68 +1,569 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+/* ====== HIZLI OKUMA – Tema (tek dosya) ====== */
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* ---- Renk paleti ---- */
+:root{
+  --bg:        #e7f0ff;
+  --bg2:       #d2e6ff;
+  --card:      #ffffff;
+  --ink:       #0f172a;      /* slate-900 */
+  --ink2:      #334155;      /* slate-700 */
+  --muted:     #64748b;      /* slate-500 */
+  --brand:     #2563eb;      /* blue-600 */
+  --brand-2:   #1d4ed8;      /* blue-700 */
+  --ok:        #10b981;      /* emerald-500 */
+  --warn:      #f59e0b;      /* amber-500 */
+  --ring:      rgba(37, 99, 235, .18);
+  --shadow:    0 10px 28px rgba(2, 6, 23, .10);
+  --radius:    14px;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+/* ---- Sayfa zemini + tipografi ---- */
+*{ box-sizing: border-box; }
+html,body,#root{ height:100%; }
+html,body{
+  margin:0;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+               "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji",
+               "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  color: var(--ink);
 }
-a:hover {
-  color: #535bf2;
+body{
+  /* yumuşak mavi degrade */
+  background:
+    radial-gradient(1300px 700px at 50% -200px, var(--bg2), transparent 70%),
+    linear-gradient(180deg, var(--bg), #cfe2ff 65%, #cbe0ff 100%);
 }
 
-body {
+/* ---- Genel başlık ---- */
+h1{
+  text-align:center;
+  font-size: clamp(28px, 3.6vw, 44px);
+  letter-spacing:.6px;
+  margin: 36px 0 8px;
+  font-weight: 800;
+}
+
+/* ---- Header satırı (Merhaba… / Çıkış) ---- */
+header{
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 8px 16px;
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+}
+header .btn{
+  padding: 8px 14px;
+  border-radius: 999px;
+  border:1px solid rgba(2,6,23,.08);
+  background: #fff;
+  box-shadow: var(--shadow);
+  font-weight:600;
+  cursor:pointer;
+}
+header .btn:hover{ transform: translateY(-1px); }
+
+/* ---- Ünite kart alanı ---- */
+.unitHero{
+  max-width: 1040px;
+  margin: 18px auto;
+  background: var(--card);
+  border: 1px solid rgba(2,6,23,.06);
+  box-shadow: var(--shadow);
+  border-radius: var(--radius);
+  overflow: clip;
+}
+.unitHeader{
+  padding: 16px 20px 10px;
+  border-bottom: 1px solid rgba(2,6,23,.06);
+}
+.unitHeader h2{
+  margin:0 0 4px 0;
+  font-size: clamp(18px, 2.3vw, 22px);
+  letter-spacing:.3px;
+}
+.topicHeader{
+  font-weight:700;
+  color: var(--brand-2);
+  margin: 6px 0 2px;
+}
+.unitDesc{
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  color: var(--muted);
+  font-size: 14px;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+/* ---- 1. Ünitedeki küçük mini bilgi şeridi ---- */
+.u1-mini-info{
+  padding: 12px 24px;
+  background: linear-gradient(0deg, rgba(13,110,253,.08), rgba(13,110,253,.08));
+  border-bottom: 1px solid rgba(37,99,235,.12);
+  color: var(--ink2);
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+/* ---- Egzersiz grid (ikonlu butonlar) ---- */
+.exerciseGrid{
+  display:flex;
+  gap: 14px;
+  padding: 16px 20px 20px;
+  flex-wrap: wrap;
+}
+.exerciseIcon{
+  width: 200px;
+  max-width: calc(50% - 7px);
+  aspect-ratio: 3.4 / 1;            /* yatay pil gibi */
+  border-radius: 12px;
+  border: 1px solid rgba(2,6,23,.08);
+  background: #fff;
+  box-shadow: var(--shadow);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  color: var(--ink2);
+  cursor:pointer;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.exerciseIcon:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(2,6,23,.14);
+}
+.exerciseIcon[disabled]{
+  opacity:.55;
+  cursor: not-allowed;
+}
+
+/* ---- Kilit uyarısı (2. Ünite kapalıyken) ---- */
+.u2-locked{
+  margin: 12px 20px 18px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: linear-gradient(0deg, rgba(245,158,11,.10), rgba(245,158,11,.10));
+  border: 1px solid rgba(245,158,11,.25);
+  color: #7c5a06;
+  font-size: 14px;
+}
+
+/* ---- Alt bölüm (placeholder) ---- */
+.pageFooter{
+  text-align:center;
+  color: var(--muted);
+  font-size: 13px;
+  margin: 18px 0 36px;
+}
+
+/* ---- Basit utility ---- */
+
+
+/* ---- Küçük ekranlar ---- */
+@media (max-width: 720px){
+  header{ padding:10px 12px; }
+  .exerciseIcon{ width: 100%; max-width: 100%; }
+  .unitHeader{ padding: 14px 14px 8px; }
+  .exerciseGrid{ padding: 14px; }
+  .u2-locked{ margin: 10px 14px 16px; }
+}
+
+/* ---- (opsiyonel) sistem dark mod desteği ---- */
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0b1220; --bg2:#0b1220;
+    --card:#0f172a; --ink:#e5e7eb; --ink2:#cbd5e1; --muted:#94a3b8;
+    --ring: rgba(59, 130, 246, .28); --shadow: 0 12px 28px rgba(0,0,0,.45);
+  }
+  body{
+    background:
+      radial-gradient(1200px 600px at 50% -200px, #0b3d6a22, transparent 70%),
+      linear-gradient(180deg, #0b1220, #0b1220 70%, #0b1220 100%);
+  }
+  .unitHero{ border-color: rgba(255,255,255,.06); }
+  .exerciseIcon{ background:#0b1220; border-color: rgba(255,255,255,.06); }
+  header .btn{ background:#0f172a; border-color: rgba(255,255,255,.08); }
+}
+.u1-mini-info { margin: 6px 0 12px; font-size: 14px; opacity: .85; }
+
+
+
+.u2-lock {
+  margin: 8px auto 0;
+  padding: 10px 12px;
+  max-width: 560px;
+  border-radius: 10px;
+  background: #fff8eb;           /* açık turuncu */
+  border: 1px solid #f6cf8e;
+  color: #8a5a00;
+  font-size: 14px;
+}
+.u1-mini-info { margin: 6px 0 12px; font-size: 14px; opacity: .85; }
+
+/* mini bilgi satırı */
+.u1-mini-info { 
+  display: block;
+}
+
+/* chip (tek tanım) */
+.chip {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-weight: 600;
+  line-height: 1.2;
+  background: var(--chip, rgba(0,0,0,0.08)); /* varsayılan gri */
+}
+
+/* İstersen varyantlar */
+.chip--blue {
+  --chip: #eef2ff;
+  border: 1px solid #c7d2fe;
+}
+/* ====== Tema Değişkenleri ====== */
+:root{
+  --bg-from: #dfeeff;
+  --bg-to:   #cfe3ff;
+  --panel:   #ffffff;
+  --ring:    rgba(0,0,0,.08);
+  --shadow:  0 8px 24px rgba(15,23,42,.08);
+  --muted:   #6b7280;
+  --title:   #0f172a;
+  --chip:    rgba(0,0,0,.05);
+  --chipText:#0f172a;
+  --accent:  #2563eb;
+}
+
+/* Arka plan – yumuşak degrade */
+html, body {
+  background: linear-gradient(180deg, var(--bg-from), var(--bg-to));
+  min-height: 100%;
+}
+
+/* Başlık (sayfanın büyük HIZLI OKUMA başlığı) */
+h1, .pageTitle {
+  color: var(--title);
+  font-weight: 800;
+  letter-spacing: .5px;
+}
+
+/* Genel kart/kutu hissi – ünite blokları */
+.unitHero{
+  max-width: 1024px;
+  margin: 18px auto;
+  background: var(--panel);
+  border-radius: 16px;
+  border: 1px solid var(--ring);
+  box-shadow: var(--shadow);
+  padding: 18px 22px;
+}
+
+/* Ünite başlıkları */
+#u1-title, #u2-title, .unitHero h2{
+  font-weight: 700;
+  text-align: center;
+  margin: 6px 0 12px;
+}
+
+/* Ünite içi küçük başlık ve açıklama */
+.topicHeader{
+  font-weight: 700;
+  color: var(--title);
+  text-align:center;
+  margin-top: 6px;
+}
+.unitDesc{
+  color: var(--muted);
+  text-align:center;
+  margin: 4px 0 10px;
+}
+
+/* “Tam Gün / Bugün” bilgi şeridi */
+.u1-mini-info{
+  display:block;
+  text-align:center;
+  margin: 6px 0 12px;
+  font-size: 14px;
+  opacity: .9;
+}
+.u1-mini-info .chip{
+  display:inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--chip);
+  color: var(--chipText);
+  border: 1px solid var(--ring);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* 3 egzersiz – grid yerleşimi */
+.exerciseGrid{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-top: 8px;
+}
+
+/* Egzersiz kutuları (ikon+isim) */
+button.exerciseIcon{
+  width: 100%;
+  display:flex;
+  align-items:center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: #fff;
+  border: 1px solid var(--ring);
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(15,23,42,.05);
+  transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
   cursor: pointer;
-  transition: border-color 0.25s;
 }
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+button.exerciseIcon:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(15,23,42,.10);
+  border-color: rgba(37,99,235,.25);
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+/* İsim satırı */
+.exerciseName{
+  font-weight: 700;
 }
+.exerciseName small{
+  display:block;
+  color: var(--muted);
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+/* 2. Ünite kilit kutucuğu */
+.u2-locked{
+  max-width: 760px;
+  margin: 10px auto 0;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(0,0,0,.04);
+  border: 1px solid rgba(0,0,0,.08);
+}
+
+/* Alt bölüm (Hız & Geniş Görüş vb.) küçük kart */
+.unitHero .miniCard{
+  max-width: 760px;
+  margin: 10px auto 0;
+  background: #fff;
+  border: 1px solid var(--ring);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  padding: 12px;
+  text-align:center;
+}
+/* ===== NAVY (lacivert) tema ===== */
+:root{
+  --bg-from:#dbeafe;      /* açık lacivert degrade */
+  --bg-to:#c7dbff;
+  --panel:#ffffff;
+  --ring:rgba(13,22,45,.12);
+  --shadow:0 10px 28px rgba(13,22,45,.10);
+  --muted:#6b7280;
+  --title:#0f172a;
+  --chip:rgba(37,99,235,.08);
+  --chipText:#1e3a8a;
+  --accent:#1d4ed8;       /* lacivert */
+  --accent-2:#1e40af;     /* koyu lacivert */
+  --amber:#f59e0b;
+}
+
+/* arka plan */
+html,body{
+  background: linear-gradient(180deg,var(--bg-from),var(--bg-to));
+  min-height:100%;
+}
+
+/* sayfa başlığı */
+h1,.pageTitle{ color:var(--title); font-weight:800; letter-spacing:.3px; }
+
+/* ünite kartları */
+.unitHero{
+  max-width: 1024px;
+  margin: 18px auto;
+  background: var(--panel);
+  border-radius: 16px;
+  border: 1px solid var(--ring);
+  box-shadow: var(--shadow);
+  padding: 18px 22px;
+}
+
+/* başlık ve açıklamalar */
+#u1-title,#u2-title,.unitHero h2{ font-weight:700; text-align:center; margin:6px 0 12px; }
+.topicHeader{ font-weight:700; color:var(--title); text-align:center; margin-top:6px; }
+.unitDesc{ color:var(--muted); text-align:center; margin:4px 0 10px; }
+
+/* mini bilgi + rozetler */
+.u1-mini-info{ text-align:center; margin:6px 0 12px; font-size:14px; opacity:.95; }
+.u1-mini-info .chip{
+  display:inline-block; padding:2px 10px; border-radius:999px;
+  background:var(--chip); color:var(--chipText);
+  border:1px solid rgba(37,99,235,.25); font-weight:700; line-height:1.2;
+}
+
+/* üç egzersiz yerleşimi */
+.exerciseGrid{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:8px; }
+
+/* egzersiz düğmesi */
+button.exerciseIcon{
+  width:100%; display:flex; align-items:center; gap:12px;
+  padding:12px 14px; background:#fff; border:1px solid var(--ring);
+  border-radius:12px; box-shadow:0 3px 10px rgba(13,22,45,.06);
+  transition:transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+  cursor:pointer;
+}
+button.exerciseIcon:hover{
+  transform:translateY(-1px);
+  box-shadow:0 10px 22px rgba(13,22,45,.12);
+  border-color:rgba(29,78,216,.28);
+}
+
+/* ikon kutucuğu (lacivert rozet) */
+button.exerciseIcon .icon{
+  width:38px; height:38px; min-width:38px;
+  display:grid; place-items:center;
+  border-radius:10px; color:#fff;
+  background:linear-gradient(180deg,var(--accent-2),var(--accent));
+  box-shadow:0 6px 14px rgba(29,78,216,.28);
+}
+
+/* egzersiz adı */
+.exerciseName{ font-weight:800; }
+.exerciseName small{ display:block; margin-top:2px; color:var(--muted); font-weight:600; }
+
+/* 2. ünite kilit kutusu (kehribar vurgulu) */
+.u2-locked{
+  max-width:760px; margin:10px auto 0; padding:12px 14px;
+  border-radius:12px; background:#fff7ed; border:1px solid #fed7aa; color:#7c2d12;
+}
+
+/* alt bilgi kartı */
+.unitHero .miniCard{
+  max-width:760px; margin:10px auto 0; background:#fff;
+  border:1px solid var(--ring); border-radius:12px; box-shadow:var(--shadow);
+  padding:12px; text-align:center;
+}
+/* === Polish pass: kartlar + butonlar + ikonlar === */
+
+:root{
+  --radius-lg: 14px;
+  --shadow-1: 0 6px 20px rgba(21, 50, 104, .08);
+  --shadow-2: 0 10px 30px rgba(21, 50, 104, .12);
+}
+
+.unitHero{
+  background: #fff;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-1);
+  border: 1px solid rgba(0,0,0,.06);
+}
+
+.unitHeader h2{
+  letter-spacing:.2px;
+}
+
+.u1-mini-info{
+  display:block;
+  margin: 8px 0 0;
+  font-size: 14px;
+  opacity:.9;
+}
+
+/* “Tam Gün / Bugün” çipleri */
+.chip{
+  display:inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-weight:600;
+  line-height:1.2;
+  background: var(--chip, rgba(0,0,0,.06));
+}
+.chip--blue{
+  --chip: #eef2ff;                /* açık mavi */
+  border: 1px solid #c7d2fe;
+}
+
+/* Ünite içi kartlar */
+.exerciseGrid{
+  display:grid;
+  grid-template-columns: repeat(3,1fr);
+  gap:16px;
+  margin-top: 14px;
+}
+
+.exerciseGrid > button{
+  background: linear-gradient(#fff, #f9fbff);
+  border: 1px solid rgba(0,0,0,.08);
+  border-radius: 12px;
+  padding: 14px 16px;
+  box-shadow: var(--shadow-1);
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+  text-align:left;
+}
+
+.exerciseGrid > button:hover{
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-2);
+  border-color: rgba(0,0,0,.12);
+}
+
+/* ikon + başlık + alt yazı */
+.exerciseIcon{
+  width: 26px;
+  height: 26px;
+  display:grid;
+  place-items:center;
+  margin-bottom: 6px;
+}
+.exerciseIcon svg{
+  width: 22px; height: 22px;
+  fill: var(--primary);
+  opacity: .95;
+}
+
+.exerciseName{
+  font-weight:700;
+  font-size: 14px;
+}
+
+.tileFooter{
+  margin-top: 2px;
+  font-size: 12px;
+  opacity:.7;
+}
+
+/* Uyarı kutuları */
+.u2-locked{
+  margin-top:8px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(255, 180, 0, .08);
+  border: 1px solid rgba(255, 180, 0, .25);
+}
+
+/* Kilitli örnek düğmeler */
+
+  /* metin zaten uygun; sadece disabled butonlarda grileşsin istiyorsak:
+  opacity: .7; */
+
+
+.btn[disabled],
+button[disabled]{
+  opacity:.55;
+  cursor:not-allowed;
+}
+.exerciseTile .icon { display:inline-flex; width:18px; height:18px; margin-right:8px; color:#1d3b84; }
+.exerciseTile .icon svg { width:18px; height:18px; display:block; }
+
+.exerciseTile {
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.exerciseTile:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(29, 59, 132, .10);
+}
+.u1-mini-info .chip { border-radius: 999px; padding: 2px 10px; }
+.exerciseTile .icon svg { color: #1d3b84; }
+.exerciseTile .icon { margin-right: 10px; }
+.exerciseTile .icon svg { width: 20px; height: 20px; }
