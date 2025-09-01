@@ -1,5 +1,6 @@
 // Basit localStorage katmanı + kod/sınıf kilitleme + İLERLEME KAYDI
-import { CLASS_OPTIONS } from './classes.js'
+import { CLASS_OPTIONS } from './classes';
+
 
 const STUDENT_KEY   = 'ho_student'        // aktif öğrenci (cihazdaki oturum)
 const TEACHER_KEY   = 'ho_teacher'        // aktif öğretmen (cihazdaki oturum)
